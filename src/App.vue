@@ -98,7 +98,7 @@ export default {
       this.play(this.current);
     },
     setVolume(volume){
-      this.player.volume = volume;
+      this.player.volume = volume / 100;
     },
     prev(){
       this.index--;
