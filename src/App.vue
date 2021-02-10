@@ -11,8 +11,9 @@
           <button class="prev" @click="prev"><font-awesome-icon icon="backward"/></button>
           <button class="play" v-if="!isPlaying" @click="play"><font-awesome-icon icon="play"/></button>
           <button class="pause" v-else @click="pause"><font-awesome-icon icon="pause"/></button>
-          <button class="next" @click="next"><font-awesome-icon icon="forward"/></button>
+          <button class="next" @click="next"><font-awesome-icon icon="forward"/></button>         
         </div>
+        <div class="sound-control"><vue-slider v-model="soundValue" @change="setVolume(soundValue)"/></div>
       </section>
       <div class="playlist">
         <div :class="(song.src == current.src) ? 'each-song playing' : 'each-song'" v-for="song in songs" :key='song.src'>
@@ -25,14 +26,20 @@
 </template>
 
 <script>
+import VueSlider from 'vue-slider-component'
+import 'vue-slider-component/theme/antd.css'
 
 export default {
   name: 'App',
+  components: {
+    VueSlider
+  },
   data: function () {
     return {
       current: {
       },
       index: 0,
+      soundValue: 3,
       isPlaying: false,
       songs: [
         {
@@ -90,6 +97,9 @@ export default {
       this.current = this.songs[this.index];
       this.play(this.current);
     },
+    setVolume(volume){
+      this.player.volume = volume;
+    },
     prev(){
       this.index--;
       if(this.index < 0){
@@ -102,6 +112,7 @@ export default {
   created () {
     this.current = this.songs[this.index];
     this.player.src = this.current.src;
+    this.player.volume = .2;
   }
 }
 
@@ -152,6 +163,12 @@ body{
   font-size: 1.9rem;
   border: none;
   background: transparent;
+}
+
+.sound-control{
+  width: 80%;
+  margin: auto;
+  margin-top: 1rem;
 }
 
 button:focus{
