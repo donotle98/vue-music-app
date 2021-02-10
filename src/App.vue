@@ -15,9 +15,9 @@
         </div>
       </section>
       <div class="playlist">
-        <div class="each-song" v-for="song in songs" :key='song.src'>
+        <div :class="(song.src == current.src) ? 'each-song playing' : 'each-song'" v-for="song in songs" :key='song.src'>
             <img v-bind:src="song.img"/>
-            <button  @click="play(song)" :class="(song.src == current.src) ? 'song playing' : 'song'">{{song.title}} - {{song.artist}}</button>
+            <button  @click="play(song)" >{{song.title}} - {{song.artist}}</button>
         </div>
       </div>
     </main>
@@ -128,11 +128,16 @@ body{
 
 .song-album{
   margin-bottom: 2rem;
+  font-size: 1.1rem;
 }
 
 .album-cover{
   margin-bottom: 1.5rem;
-  box-shadow: 0px 0px 30px #fff;
+  -webkit-animation: boxColor 20s infinite;
+  animation: boxColor 10s infinite;
+  -webkit-animation-direction: alternate;
+  animation-direction: alternate;
+  border-radius: 4rem;
 }
 
 .controls{
@@ -182,5 +187,38 @@ button:focus{
 .each-song{
   display: flex;
   margin-bottom: 2rem;
+  transition: .5s;
+}
+
+.playing{
+  -webkit-animation: boxColor 20s infinite;
+  animation: boxColor 10s infinite;
+  -webkit-animation-direction: alternate;
+  animation-direction: alternate;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+  transition: .5s;
+}
+
+@keyframes boxColor {
+  0% {
+        box-shadow: 0px 0px 40px #45a3e5;
+    }
+
+    30% {
+        box-shadow: 0px 0px 40px #66bf39
+    }
+
+    60% {
+        box-shadow: 0px 0px 40px #eb670f
+    }
+
+    90% {
+        box-shadow: 0px 0px 40px #f35
+    }
+
+    100% {
+        box-shadow: 0px 0px 40px #864cbf
+    }
 }
 </style>
