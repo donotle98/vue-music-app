@@ -1,28 +1,186 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <main>
+      <section class="player">
+        <div class="song-info">
+          <img class="album-cover" v-bind:src="current.img"/>
+          <h2 class="song-album">{{current.album}}</h2>
+          <h2 class="song-title">{{current.title}} - <span>{{current.artist}}</span></h2>
+        </div>
+        <div class="controls">
+          <button class="prev" @click="prev"><font-awesome-icon icon="backward"/></button>
+          <button class="play" v-if="!isPlaying" @click="play"><font-awesome-icon icon="play"/></button>
+          <button class="pause" v-else @click="pause"><font-awesome-icon icon="pause"/></button>
+          <button class="next" @click="next"><font-awesome-icon icon="forward"/></button>
+        </div>
+      </section>
+      <div class="playlist">
+        <div class="each-song" v-for="song in songs" :key='song.src'>
+            <img v-bind:src="song.img"/>
+            <button  @click="play(song)" :class="(song.src == current.src) ? 'song playing' : 'song'">{{song.title}} - {{song.artist}}</button>
+        </div>
+      </div>
+    </main>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  data: function () {
+    return {
+      current: {
+      },
+      index: 0,
+      isPlaying: false,
+      songs: [
+        {
+          title: 'Problemz',
+          album: 'Escape From New York',
+          artist: 'Beast Coast',
+          src: require('./assets/03 Problemz (feat. Erick the Architect, CJ Fly, The Underachievers, Zombie Juice & Nyck Caution).mp3'),
+          img: require('./assets/efny_cover.png')
+        },
+        {
+          title: 'Far Away',
+          album: 'Escape From New York',
+          artist: 'Beast Coast',
+          src: require('./assets/04 Far Away (feat. Kirk Knight, Meechy Darko, Erick the Architect, Nyck Caution & Joey Bada$$).mp3'),
+          img: require('./assets/efny_cover.png')
+        },
+        {
+          title: 'One More Round',
+          album: 'Escape From New York',
+          artist: 'Beast Coast',
+          src: require('./assets/11 One More Round (feat. Meechy Darko, Erick the Architect, Nyck Caution & Joey Bada$$).mp3'),
+          img: require('./assets/efny_cover.png')
+        },
+        {
+          title: 'Coast Clear',
+          album: 'Escape From New York',
+          artist: 'Beast Coast',
+          src: require('./assets/12 Coast_Clear (feat. Joey Bada$$, Flatbush Zombies, Kirk Knight, Nyck Caution & Issa Gold).mp3'),
+          img: require('./assets/efny_cover.png')
+        }
+      ],
+      player: new Audio()
+    }
+  },
+  methods: {
+    play (song) {
+      if(typeof song.src != 'undefined'){
+        this.current = song;
+
+        this.player.src = this.current.src;
+      }
+
+      this.player.play();
+      this.isPlaying = true;
+    },
+    pause(){
+      this.player.pause();
+      this.isPlaying = false;
+    },
+    next(){
+      this.index++;
+      if(this.index > this.songs.length - 1){
+        this.index = 0;
+      }
+      this.current = this.songs[this.index];
+      this.play(this.current);
+    },
+    prev(){
+      this.index--;
+      if(this.index < 0){
+        this.index = this.songs.length - 1;
+      }
+      this.current = this.songs[this.index];
+      this.play(this.current);
+    }
+  },
+  created () {
+    this.current = this.songs[this.index];
+    this.player.src = this.current.src;
   }
 }
+
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body{
+  font-family: sans-serif;
+  background-color: black;
+}
+
+.song-info{
+  color: white;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.song-album{
+  margin-bottom: 2rem;
+}
+
+.album-cover{
+  margin-bottom: 1.5rem;
+  box-shadow: 0px 0px 30px #fff;
+}
+
+.controls{
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
+}
+
+.controls button{
+  padding: .5rem .75rem;
+  color: white;
+  font-size: 1.9rem;
+  border: none;
+  background: transparent;
+}
+
+button:focus{
+  outline: none;
+}
+
+.playlist{
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3rem;
+  padding-top: 3rem;
+}
+
+.playlist img{
+  width: 3rem;
+  height: 3rem;
+  margin-left: 2rem;
+}
+
+.playlist button{
+  color: white;
+  width: 20rem;
+  border: none;
+  background: transparent;
+  font-size: 1.2rem;
+  text-align: left;
+  margin-left: 1rem;
+}
+
+.each-song{
+  display: flex;
+  margin-bottom: 2rem;
 }
 </style>
