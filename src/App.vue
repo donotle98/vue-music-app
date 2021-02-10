@@ -128,6 +128,7 @@ export default {
 body{
   font-family: sans-serif;
   background-color: black;
+  overflow-x: hidden;
 }
 
 .song-info{
@@ -188,17 +189,17 @@ button:focus{
 .playlist img{
   width: 3rem;
   height: 3rem;
-  margin-left: 2rem;
+  margin-left: 1rem;
 }
 
 .playlist button{
   color: white;
-  width: 20rem;
+  width: 17rem;
   border: none;
   background: transparent;
   font-size: 1.2rem;
   text-align: left;
-  margin-left: 1rem;
+  padding-left: 1rem;
 }
 
 .each-song{
@@ -214,6 +215,14 @@ button:focus{
   animation-direction: alternate;
   padding-top: .5rem;
   padding-bottom: .5rem;
+  transition: .5s;
+  border-top-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+
+.playing img{
+  border-top-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
   transition: .5s;
 }
 
