@@ -39,7 +39,7 @@ export default {
       current: {
       },
       index: 0,
-      soundValue: 3,
+      soundValue: 0,
       isPlaying: false,
       songs: [
         {
@@ -112,7 +112,7 @@ export default {
   created () {
     this.current = this.songs[this.index];
     this.player.src = this.current.src;
-    this.player.volume = .2;
+    this.player.volume = this.soundValue;
   }
 }
 
